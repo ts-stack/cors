@@ -9,13 +9,7 @@ export interface AnyObj {
 }
 
 export function middlewareWrapper(options?: CorsOptions) {
-  const defaults: CorsOptions = {
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-  };
-  const corsOptions = Object.assign({}, defaults, options);
+  const corsOptions = mergeOptions(options);
 
   return function corsMiddleware(req: IncomingMessage, res: ServerResponse, next: AnyFn) {
     if (corsOptions.origin) {
@@ -24,6 +18,19 @@ export function middlewareWrapper(options?: CorsOptions) {
       next();
     }
   };
+}
+
+/**
+ * Merges `CorsOptions` with default options.
+ */
+export function mergeOptions(options?: CorsOptions) {
+  const defaults: CorsOptions = {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  };
+  return Object.assign({}, defaults, options);
 }
 
 export function corsSync(options: CorsOptions, req: IncomingMessage, res: ServerResponse, next: AnyFn) {
@@ -59,7 +66,7 @@ export function corsSync(options: CorsOptions, req: IncomingMessage, res: Server
   }
 }
 
-export function cors(options: CorsOptions, req: IncomingMessage, res: ServerResponse) {
+export function cors(req: IncomingMessage, res: ServerResponse, options: CorsOptions) {
   return new Promise<void>((resolve) => {
     corsSync(options, req, res, resolve);
   });
