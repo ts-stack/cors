@@ -45,7 +45,7 @@ describe('cors', function () {
     const res = fakeResponse();
 
     res.on('finish', function () {
-      assert.equal(res.statusCode, 204);
+      assert.strictEqual(res.statusCode, 204);
       cb();
     });
 
@@ -60,7 +60,7 @@ describe('cors', function () {
     const res = fakeResponse();
 
     res.on('finish', function () {
-      assert.equal(res.statusCode, 200);
+      assert.strictEqual(res.statusCode, 200);
       cb();
     });
 
@@ -91,7 +91,7 @@ describe('cors', function () {
     const res = fakeResponse();
 
     res.on('finish', function () {
-      assert.equal(res.statusCode, 204);
+      assert.strictEqual(res.statusCode, 204);
       cb();
     });
 
@@ -106,7 +106,7 @@ describe('cors', function () {
     const res = fakeResponse();
 
     res.on('finish', function () {
-      assert.equal(res.getHeader('Content-Length'), '0');
+      assert.strictEqual(res.getHeader('Content-Length'), '0');
       cb();
     });
 
@@ -121,8 +121,8 @@ describe('cors', function () {
     const res = fakeResponse();
     const next = function () {
       // assert
-      assert.equal(res.getHeader('Access-Control-Allow-Origin'), '*');
-      assert.equal(res.getHeader('Access-Control-Allow-Methods'), undefined);
+      assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), '*');
+      assert.strictEqual(res.getHeader('Access-Control-Allow-Methods'), undefined);
       done();
     };
 
@@ -136,9 +136,9 @@ describe('cors', function () {
     const res = fakeResponse();
 
     res.on('finish', function () {
-      assert.equal(res.statusCode, 204);
-      assert.equal(res.getHeader('Access-Control-Allow-Origin'), '*');
-      assert.equal(res.getHeader('Access-Control-Allow-Methods'), 'GET,HEAD,PUT,PATCH,POST,DELETE');
+      assert.strictEqual(res.statusCode, 204);
+      assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), '*');
+      assert.strictEqual(res.getHeader('Access-Control-Allow-Methods'), 'GET,HEAD,PUT,PATCH,POST,DELETE');
       cb();
     });
 
@@ -161,12 +161,12 @@ describe('cors', function () {
       };
 
       res.on('finish', function () {
-        assert.equal(res.statusCode, 204);
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), 'http://example.com');
-        assert.equal(res.getHeader('Access-Control-Allow-Methods'), 'FOO,bar');
-        assert.equal(res.getHeader('Access-Control-Allow-Headers'), 'FIZZ,buzz');
-        assert.equal(res.getHeader('Access-Control-Allow-Credentials'), 'true');
-        assert.equal(res.getHeader('Access-Control-Max-Age'), '123');
+        assert.strictEqual(res.statusCode, 204);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'http://example.com');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Methods'), 'FOO,bar');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Headers'), 'FIZZ,buzz');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Credentials'), 'true');
+        assert.strictEqual(res.getHeader('Access-Control-Max-Age'), '123');
         cb();
       });
 
@@ -181,8 +181,8 @@ describe('cors', function () {
       const options: CorsOptions = { origin: /:\/\/(.+\.)?example.com$/ };
       cors(options)(req, res, function (err) {
         assert.ifError(err);
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), req.headers.origin);
-        assert.equal(res.getHeader('Vary'), 'Origin');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), req.headers.origin);
+        assert.strictEqual(res.getHeader('Vary'), 'Origin');
         return done();
       });
     });
@@ -193,8 +193,8 @@ describe('cors', function () {
       const options: CorsOptions = { origin: [/foo\.com$/, 'http://example.com'] };
       cors(options)(req, res, function (err) {
         assert.ifError(err);
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), req.headers.origin);
-        assert.equal(res.getHeader('Vary'), 'Origin');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), req.headers.origin);
+        assert.strictEqual(res.getHeader('Vary'), 'Origin');
         return done();
       });
     });
@@ -205,8 +205,8 @@ describe('cors', function () {
       const options: CorsOptions = { origin: [/foo\.com$/, 'bar.com'] };
       cors(options)(req, res, function (err) {
         assert.ifError(err);
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), undefined);
-        assert.equal(res.getHeader('Vary'), 'Origin');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), undefined);
+        assert.strictEqual(res.getHeader('Vary'), 'Origin');
         return done();
       });
     });
@@ -224,11 +224,11 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), undefined);
-        assert.equal(res.getHeader('Access-Control-Allow-Methods'), undefined);
-        assert.equal(res.getHeader('Access-Control-Allow-Headers'), undefined);
-        assert.equal(res.getHeader('Access-Control-Allow-Credentials'), undefined);
-        assert.equal(res.getHeader('Access-Control-Max-Age'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Methods'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Headers'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Credentials'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Max-Age'), undefined);
         done();
       };
 
@@ -245,7 +245,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), 'http://example.com');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'http://example.com');
         done();
       };
 
@@ -262,7 +262,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Vary'), 'Origin');
+        assert.strictEqual(res.getHeader('Vary'), 'Origin');
         done();
       };
 
@@ -280,7 +280,7 @@ describe('cors', function () {
       res.setHeader('Vary', 'Foo');
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Vary'), 'Foo, Origin');
+        assert.strictEqual(res.getHeader('Vary'), 'Foo, Origin');
         done();
       };
 
@@ -294,7 +294,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), '*');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), '*');
         done();
       };
 
@@ -311,7 +311,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), 'http://example.com');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'http://example.com');
         done();
       };
 
@@ -328,7 +328,7 @@ describe('cors', function () {
       const req = fakeRequest('GET');
       const res = fakeResponse();
       const next = function () {
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), 'http://example.com');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'http://example.com');
         done();
       };
 
@@ -344,11 +344,11 @@ describe('cors', function () {
       const req = fakeRequest('GET');
       const res = fakeResponse();
       const next = function () {
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), undefined);
-        assert.equal(res.getHeader('Access-Control-Allow-Methods'), undefined);
-        assert.equal(res.getHeader('Access-Control-Allow-Headers'), undefined);
-        assert.equal(res.getHeader('Access-Control-Allow-Credentials'), undefined);
-        assert.equal(res.getHeader('Access-Control-Max-Age'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Methods'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Headers'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Credentials'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Max-Age'), undefined);
         done();
       };
 
@@ -366,7 +366,7 @@ describe('cors', function () {
       req = fakeRequest('GET');
       res = fakeResponse();
       next = function () {
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), 'http://example.com');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'http://example.com');
       };
 
       cors(options)(req, res, next);
@@ -377,11 +377,11 @@ describe('cors', function () {
       res = fakeResponse();
 
       next = function () {
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), undefined);
-        assert.equal(res.getHeader('Access-Control-Allow-Methods'), undefined);
-        assert.equal(res.getHeader('Access-Control-Allow-Headers'), undefined);
-        assert.equal(res.getHeader('Access-Control-Allow-Credentials'), undefined);
-        assert.equal(res.getHeader('Access-Control-Max-Age'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Methods'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Headers'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Credentials'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Max-Age'), undefined);
         done();
       };
 
@@ -397,8 +397,8 @@ describe('cors', function () {
       };
 
       res.on('finish', function () {
-        assert.equal(res.statusCode, 204);
-        assert.equal(res.getHeader('Access-Control-Allow-Methods'), 'method1,method2');
+        assert.strictEqual(res.statusCode, 204);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Methods'), 'method1,method2');
         cb();
       });
 
@@ -413,8 +413,8 @@ describe('cors', function () {
       const res = fakeResponse();
 
       res.on('finish', function () {
-        assert.equal(res.statusCode, 204);
-        assert.equal(res.getHeader('Access-Control-Allow-Methods'), 'GET,HEAD,PUT,PATCH,POST,DELETE');
+        assert.strictEqual(res.statusCode, 204);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Methods'), 'GET,HEAD,PUT,PATCH,POST,DELETE');
         cb();
       });
 
@@ -429,8 +429,8 @@ describe('cors', function () {
       const res = fakeResponse();
 
       res.on('finish', function () {
-        assert.equal(res.getHeader('Access-Control-Allow-Headers'), 'header1,header2');
-        assert.equal(res.getHeader('Vary'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Headers'), 'header1,header2');
+        assert.strictEqual(res.getHeader('Vary'), undefined);
         cb();
       });
 
@@ -445,8 +445,8 @@ describe('cors', function () {
       const res = fakeResponse();
 
       res.on('finish', function () {
-        assert.equal(res.getHeader('Access-Control-Allow-Headers'), 'header1,header2');
-        assert.equal(res.getHeader('Vary'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Headers'), 'header1,header2');
+        assert.strictEqual(res.getHeader('Vary'), undefined);
         cb();
       });
 
@@ -464,8 +464,8 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Allow-Headers'), undefined);
-        assert.equal(res.getHeader('Vary'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Headers'), undefined);
+        assert.strictEqual(res.getHeader('Vary'), undefined);
         done();
       };
 
@@ -479,8 +479,8 @@ describe('cors', function () {
       const res = fakeResponse();
 
       res.on('finish', function () {
-        assert.equal(res.getHeader('Access-Control-Allow-Headers'), 'x-header-1, x-header-2');
-        assert.equal(res.getHeader('Vary'), 'Access-Control-Request-Headers');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Headers'), 'x-header-1, x-header-2');
+        assert.strictEqual(res.getHeader('Vary'), 'Access-Control-Request-Headers');
         cb();
       });
 
@@ -498,7 +498,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Expose-Headers'), 'custom-header1,custom-header2');
+        assert.strictEqual(res.getHeader('Access-Control-Expose-Headers'), 'custom-header1,custom-header2');
         done();
       };
 
@@ -515,7 +515,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Expose-Headers'), 'custom-header1,custom-header2');
+        assert.strictEqual(res.getHeader('Access-Control-Expose-Headers'), 'custom-header1,custom-header2');
         done();
       };
 
@@ -532,7 +532,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Expose-Headers'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Expose-Headers'), undefined);
         done();
       };
 
@@ -546,7 +546,7 @@ describe('cors', function () {
       const res = fakeResponse();
 
       res.on('finish', function () {
-        assert.equal(res.getHeader('Access-Control-Allow-Credentials'), 'true');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Credentials'), 'true');
         cb();
       });
 
@@ -561,7 +561,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Allow-Credentials'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Credentials'), undefined);
         done();
       };
 
@@ -575,7 +575,7 @@ describe('cors', function () {
       const res = fakeResponse();
 
       res.on('finish', function () {
-        assert.equal(res.getHeader('Access-Control-Max-Age'), '456');
+        assert.strictEqual(res.getHeader('Access-Control-Max-Age'), '456');
         cb();
       });
 
@@ -590,7 +590,7 @@ describe('cors', function () {
       const res = fakeResponse();
 
       res.on('finish', function () {
-        assert.equal(res.getHeader('Access-Control-Max-Age'), '0');
+        assert.strictEqual(res.getHeader('Access-Control-Max-Age'), '0');
         cb();
       });
 
@@ -605,7 +605,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Max-Age'), undefined);
+        assert.strictEqual(res.getHeader('Access-Control-Max-Age'), undefined);
         done();
       };
 
@@ -626,7 +626,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function () {
         // assert
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), 'delegate.com');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'delegate.com');
         done();
       };
 
@@ -646,8 +646,8 @@ describe('cors', function () {
       };
 
       res.on('finish', function () {
-        assert.equal(res.getHeader('Access-Control-Allow-Origin'), 'delegate.com');
-        assert.equal(res.getHeader('Access-Control-Max-Age'), '1000');
+        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'delegate.com');
+        assert.strictEqual(res.getHeader('Access-Control-Max-Age'), '1000');
         cb();
       });
 
@@ -665,7 +665,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const next = function (err: Error) {
         // assert
-        assert.equal(err, 'some error');
+        assert.strictEqual(err, 'some error');
         done();
       };
 
