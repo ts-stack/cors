@@ -2,10 +2,9 @@ import * as assert from 'assert';
 import after from 'after';
 import { Request, Response } from 'express';
 
-import { middlewareWrapper as cors } from '../src';
+import { CorsOptions, middlewareWrapper as cors } from '../src';
 import { FakeRequest } from './fake-request';
 import { FakeResponse } from './fake-response';
-import { CorsOptions } from 'src/cors-options';
 import { AnyFn, AnyObj } from 'src/main';
 
 process.env.NODE_ENV = 'test';

@@ -1,8 +1,7 @@
 import express from 'express';
 import supertest from 'supertest';
 
-import { middlewareWrapper as cors } from '../src';
-import { CorsOptions } from '../src/cors-options';
+import { CorsOptions, middlewareWrapper as cors } from '../src';
 
 process.env.NODE_ENV = 'test';
 
