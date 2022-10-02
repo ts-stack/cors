@@ -148,7 +148,7 @@ describe('cors', function () {
   });
 
   describe('passing static options', function () {
-    fit('overrides defaults', function (done) {
+    it('overrides defaults', function (done) {
       const cb = after(1, done);
       const req = fakeRequest('OPTIONS');
       const res = fakeResponse();
@@ -178,7 +178,7 @@ describe('cors', function () {
     it('matches request origin against regexp', function (done) {
       const req = fakeRequest('GET');
       const res = fakeResponse();
-      const options = { origin: /:\/\/(.+\.)?example.com$/ };
+      const options: CorsOptions = { origin: /:\/\/(.+\.)?example.com$/ };
       cors(options)(req, res, function (err) {
         assert.ifError(err);
         assert.equal(res.getHeader('Access-Control-Allow-Origin'), req.headers.origin);
@@ -190,7 +190,7 @@ describe('cors', function () {
     it('matches request origin against array of origin checks', function (done) {
       const req = fakeRequest('GET');
       const res = fakeResponse();
-      const options = { origin: [/foo\.com$/, 'http://example.com'] };
+      const options: CorsOptions = { origin: [/foo\.com$/, 'http://example.com'] };
       cors(options)(req, res, function (err) {
         assert.ifError(err);
         assert.equal(res.getHeader('Access-Control-Allow-Origin'), req.headers.origin);
@@ -202,7 +202,7 @@ describe('cors', function () {
     it("doesn't match request origin against array of invalid origin checks", function (done) {
       const req = fakeRequest('GET');
       const res = fakeResponse();
-      const options = { origin: [/foo\.com$/, 'bar.com'] };
+      const options: CorsOptions = { origin: [/foo\.com$/, 'bar.com'] };
       cors(options)(req, res, function (err) {
         assert.ifError(err);
         assert.equal(res.getHeader('Access-Control-Allow-Origin'), undefined);
@@ -213,10 +213,10 @@ describe('cors', function () {
 
     it('origin of false disables cors', function (done) {
       // arrange
-      const options = {
+      const options: CorsOptions = {
         origin: false,
         methods: ['FOO', 'bar'],
-        headers: ['FIZZ', 'buzz'],
+        allowedHeaders: ['FIZZ', 'buzz'],
         credentials: true,
         maxAge: 123,
       };
@@ -238,7 +238,7 @@ describe('cors', function () {
 
     it('can override origin', function (done) {
       // arrange
-      const options = {
+      const options: CorsOptions = {
         origin: 'http://example.com',
       };
       const req = fakeRequest('GET');
@@ -255,7 +255,7 @@ describe('cors', function () {
 
     it('includes Vary header for specific origins', function (done) {
       // arrange
-      const options = {
+      const options: CorsOptions = {
         origin: 'http://example.com',
       };
       const req = fakeRequest('GET');
@@ -272,7 +272,7 @@ describe('cors', function () {
 
     it('appends to an existing Vary header', function (done) {
       // arrange
-      const options = {
+      const options: CorsOptions = {
         origin: 'http://example.com',
       };
       const req = fakeRequest('GET');
@@ -304,7 +304,7 @@ describe('cors', function () {
 
     it('specifying true for origin reflects requesting origin', function (done) {
       // arrange
-      const options = {
+      const options: CorsOptions = {
         origin: true,
       };
       const req = fakeRequest('GET');
@@ -320,7 +320,7 @@ describe('cors', function () {
     });
 
     it('should allow origin when callback returns true', function (done) {
-      const options = {
+      const options: CorsOptions = {
         origin: function (sentOrigin: any, cb: AnyFn) {
           cb(null, true);
         },
@@ -336,7 +336,7 @@ describe('cors', function () {
     });
 
     it('should not allow origin when callback returns false', function (done) {
-      const options = {
+      const options: CorsOptions = {
         origin: function (sentOrigin: any, cb: AnyFn) {
           cb(null, false);
         },
@@ -357,7 +357,7 @@ describe('cors', function () {
 
     it('should not override options.origin callback', function (done) {
       let req, res: any, next;
-      const options = {
+      const options: CorsOptions = {
         origin: function (sentOrigin: any, cb: AnyFn) {
           cb(null, sentOrigin === 'http://example.com');
         },
@@ -392,7 +392,7 @@ describe('cors', function () {
       const cb = after(1, done);
       const req = fakeRequest('OPTIONS');
       const res = fakeResponse();
-      const options = {
+      const options: CorsOptions = {
         methods: ['method1', 'method2'],
       };
 
@@ -491,7 +491,7 @@ describe('cors', function () {
 
     it('can specify exposed headers as array', function (done) {
       // arrange
-      const options = {
+      const options: CorsOptions = {
         exposedHeaders: ['custom-header1', 'custom-header2'],
       };
       const req = fakeRequest('GET');
@@ -508,7 +508,7 @@ describe('cors', function () {
 
     it('can specify exposed headers as string', function (done) {
       // arrange
-      const options = {
+      const options: CorsOptions = {
         exposedHeaders: 'custom-header1,custom-header2',
       };
       const req = fakeRequest('GET');

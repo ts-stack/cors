@@ -1,5 +1,4 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import assign from 'object-assign';
 import vary from 'vary';
 import { CorsOptions, CustomOrigin, StaticOrigin } from './cors-options';
 
@@ -222,7 +221,7 @@ export function middlewareWrapper(o?: AnyFn | CorsOptions) {
       if (err) {
         next(err);
       } else {
-        const corsOptions = assign({}, defaults, options);
+        const corsOptions = Object.assign({}, defaults, options);
         let originCallback = null;
         if (corsOptions.origin && typeof corsOptions.origin == 'function') {
           originCallback = corsOptions.origin;
