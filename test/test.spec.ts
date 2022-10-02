@@ -2,10 +2,10 @@ import * as assert from 'assert';
 import after from 'after';
 import { Request, Response } from 'express';
 
-import { CorsOptions, middlewareWrapper as cors } from '../src';
+import { CorsOptions, middlewareWrapper } from '../src';
 import { FakeRequest } from './fake-request';
 import { FakeResponse } from './fake-response';
-import { AnyFn, AnyObj } from 'src/main';
+import { AnyObj } from 'src/main';
 
 process.env.NODE_ENV = 'test';
 
@@ -23,7 +23,7 @@ describe('cors', function () {
       origin: 'custom-origin',
     });
     assert.doesNotThrow(function () {
-      cors(options);
+      middlewareWrapper(options);
     });
   });
 
@@ -36,7 +36,7 @@ describe('cors', function () {
     };
 
     // act
-    cors()(req, res, next);
+    middlewareWrapper()(req, res, next);
   });
 
   it('shortcircuits preflight requests', function (done) {
@@ -49,7 +49,7 @@ describe('cors', function () {
       cb();
     });
 
-    cors()(req, res, function (err) {
+    middlewareWrapper()(req, res, function (err) {
       cb(err || new Error('should not be called'));
     });
   });
@@ -65,7 +65,7 @@ describe('cors', function () {
     });
 
     // act
-    cors({ optionsSuccessStatus: 200 })(req, res, function (err) {
+    middlewareWrapper({ optionsSuccessStatus: 200 })(req, res, function (err) {
       cb(err || new Error('should not be called'));
     });
   });
@@ -79,7 +79,7 @@ describe('cors', function () {
       cb(new Error('should not be called'));
     });
 
-    cors({ preflightContinue: true })(req, res, function (err) {
+    middlewareWrapper({ preflightContinue: true })(req, res, function (err) {
       if (err) return cb(err);
       setTimeout(cb, 10);
     });
@@ -95,7 +95,7 @@ describe('cors', function () {
       cb();
     });
 
-    cors()(req, res, function (err) {
+    middlewareWrapper()(req, res, function (err) {
       cb(err || new Error('should not be called'));
     });
   });
@@ -110,7 +110,7 @@ describe('cors', function () {
       cb();
     });
 
-    cors()(req, res, function (err) {
+    middlewareWrapper()(req, res, function (err) {
       cb(err || new Error('should not be called'));
     });
   });
@@ -127,7 +127,7 @@ describe('cors', function () {
     };
 
     // act
-    cors()(req, res, next);
+    middlewareWrapper()(req, res, next);
   });
 
   it('OPTION call with no options enables default CORS to all origins and methods', function (done) {
@@ -142,7 +142,7 @@ describe('cors', function () {
       cb();
     });
 
-    cors()(req, res, function (err) {
+    middlewareWrapper()(req, res, function (err) {
       cb(err || new Error('should not be called'));
     });
   });
@@ -170,7 +170,7 @@ describe('cors', function () {
         cb();
       });
 
-      cors(options)(req, res, function (err) {
+      middlewareWrapper(options)(req, res, function (err) {
         cb(err || new Error('should not be called'));
       });
     });
@@ -179,7 +179,7 @@ describe('cors', function () {
       const req = fakeRequest('GET');
       const res = fakeResponse();
       const options: CorsOptions = { origin: /:\/\/(.+\.)?example.com$/ };
-      cors(options)(req, res, function (err) {
+      middlewareWrapper(options)(req, res, function (err) {
         assert.ifError(err);
         assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), req.headers.origin);
         assert.strictEqual(res.getHeader('Vary'), 'Origin');
@@ -191,7 +191,7 @@ describe('cors', function () {
       const req = fakeRequest('GET');
       const res = fakeResponse();
       const options: CorsOptions = { origin: [/foo\.com$/, 'http://example.com'] };
-      cors(options)(req, res, function (err) {
+      middlewareWrapper(options)(req, res, function (err) {
         assert.ifError(err);
         assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), req.headers.origin);
         assert.strictEqual(res.getHeader('Vary'), 'Origin');
@@ -203,7 +203,7 @@ describe('cors', function () {
       const req = fakeRequest('GET');
       const res = fakeResponse();
       const options: CorsOptions = { origin: [/foo\.com$/, 'bar.com'] };
-      cors(options)(req, res, function (err) {
+      middlewareWrapper(options)(req, res, function (err) {
         assert.ifError(err);
         assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), undefined);
         assert.strictEqual(res.getHeader('Vary'), 'Origin');
@@ -233,7 +233,7 @@ describe('cors', function () {
       };
 
       // act
-      cors(options)(req, res, next);
+      middlewareWrapper(options)(req, res, next);
     });
 
     it('can override origin', function (done) {
@@ -250,7 +250,7 @@ describe('cors', function () {
       };
 
       // act
-      cors(options)(req, res, next);
+      middlewareWrapper(options)(req, res, next);
     });
 
     it('includes Vary header for specific origins', function (done) {
@@ -267,7 +267,7 @@ describe('cors', function () {
       };
 
       // act
-      cors(options)(req, res, next);
+      middlewareWrapper(options)(req, res, next);
     });
 
     it('appends to an existing Vary header', function (done) {
@@ -285,7 +285,7 @@ describe('cors', function () {
       };
 
       // act
-      cors(options)(req, res, next);
+      middlewareWrapper(options)(req, res, next);
     });
 
     it('origin defaults to *', function (done) {
@@ -299,7 +299,7 @@ describe('cors', function () {
       };
 
       // act
-      cors()(req, res, next);
+      middlewareWrapper()(req, res, next);
     });
 
     it('specifying true for origin reflects requesting origin', function (done) {
@@ -316,7 +316,7 @@ describe('cors', function () {
       };
 
       // act
-      cors(options)(req, res, next);
+      middlewareWrapper(options)(req, res, next);
     });
 
     it('can override methods', function (done) {
@@ -333,7 +333,7 @@ describe('cors', function () {
         cb();
       });
 
-      cors(options)(req, res, function (err) {
+      middlewareWrapper(options)(req, res, function (err) {
         cb(err || new Error('should not be called'));
       });
     });
@@ -349,7 +349,7 @@ describe('cors', function () {
         cb();
       });
 
-      cors()(req, res, function (err) {
+      middlewareWrapper()(req, res, function (err) {
         cb(err || new Error('should not be called'));
       });
     });
@@ -365,7 +365,7 @@ describe('cors', function () {
         cb();
       });
 
-      cors({ allowedHeaders: ['header1', 'header2'] })(req, res, function (err) {
+      middlewareWrapper({ allowedHeaders: ['header1', 'header2'] })(req, res, function (err) {
         cb(err || new Error('should not be called'));
       });
     });
@@ -381,7 +381,7 @@ describe('cors', function () {
         cb();
       });
 
-      cors({ allowedHeaders: 'header1,header2' })(req, res, function (err) {
+      middlewareWrapper({ allowedHeaders: 'header1,header2' })(req, res, function (err) {
         cb(err || new Error('should not be called'));
       });
     });
@@ -401,7 +401,7 @@ describe('cors', function () {
       };
 
       // act
-      cors(options)(req, res, next);
+      middlewareWrapper(options)(req, res, next);
     });
 
     it('if no allowed headers are specified, defaults to requested allowed headers', function (done) {
@@ -415,7 +415,7 @@ describe('cors', function () {
         cb();
       });
 
-      cors()(req, res, function (err) {
+      middlewareWrapper()(req, res, function (err) {
         cb(err || new Error('should not be called'));
       });
     });
@@ -434,7 +434,7 @@ describe('cors', function () {
       };
 
       // act
-      cors(options)(req, res, next);
+      middlewareWrapper(options)(req, res, next);
     });
 
     it('can specify exposed headers as string', function (done) {
@@ -451,7 +451,7 @@ describe('cors', function () {
       };
 
       // act
-      cors(options)(req, res, next);
+      middlewareWrapper(options)(req, res, next);
     });
 
     it('specifying an empty list or string of exposed headers will result in no response header for exposed headers', function (done) {
@@ -468,7 +468,7 @@ describe('cors', function () {
       };
 
       // act
-      cors(options)(req, res, next);
+      middlewareWrapper(options)(req, res, next);
     });
 
     it('includes credentials if explicitly enabled', function (done) {
@@ -481,7 +481,7 @@ describe('cors', function () {
         cb();
       });
 
-      cors({ credentials: true })(req, res, function (err) {
+      middlewareWrapper({ credentials: true })(req, res, function (err) {
         cb(err || new Error('should not be called'));
       });
     });
@@ -497,7 +497,7 @@ describe('cors', function () {
       };
 
       // act
-      cors()(req, res, next);
+      middlewareWrapper()(req, res, next);
     });
 
     it('includes maxAge when specified', function (done) {
@@ -510,7 +510,7 @@ describe('cors', function () {
         cb();
       });
 
-      cors({ maxAge: 456 })(req, res, function (err) {
+      middlewareWrapper({ maxAge: 456 })(req, res, function (err) {
         cb(err || new Error('should not be called'));
       });
     });
@@ -525,7 +525,7 @@ describe('cors', function () {
         cb();
       });
 
-      cors({ maxAge: 0 })(req, res, function (err) {
+      middlewareWrapper({ maxAge: 0 })(req, res, function (err) {
         cb(err || new Error('should not be called'));
       });
     });
@@ -541,7 +541,7 @@ describe('cors', function () {
       };
 
       // act
-      cors()(req, res, next);
+      middlewareWrapper()(req, res, next);
     });
   });
 });

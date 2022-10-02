@@ -3,12 +3,12 @@ import { IncomingMessage } from 'http';
 import supertest from 'supertest';
 
 import { AnyFn } from '../src/main';
-import { middlewareWrapper as cors } from '../src';
+import { middlewareWrapper } from '../src';
 
 process.env.NODE_ENV = 'test';
 
 const app = express();
-app.use(cors());
+app.use(middlewareWrapper());
 
 app.post('/five-hundred', function (req, res, next) {
   next(new Error('nope'));

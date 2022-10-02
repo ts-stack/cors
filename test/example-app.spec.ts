@@ -1,26 +1,26 @@
 import express from 'express';
 import supertest from 'supertest';
 
-import { middlewareWrapper as cors } from '../src';
+import { middlewareWrapper } from '../src';
 
 process.env.NODE_ENV = 'test';
 
 const simpleApp = express();
-simpleApp.head('/', cors(), function (req, res) {
+simpleApp.head('/', middlewareWrapper(), function (req, res) {
   res.status(204).send();
 });
 
-simpleApp.get('/', cors(), function (req, res) {
+simpleApp.get('/', middlewareWrapper(), function (req, res) {
   res.send('Hello World (Get)');
 });
 
-simpleApp.post('/', cors(), function (req, res) {
+simpleApp.post('/', middlewareWrapper(), function (req, res) {
   res.send('Hello World (Post)');
 });
 
 const complexApp = express();
-complexApp.options('/', cors());
-complexApp.delete('/', cors(), function (req, res) {
+complexApp.options('/', middlewareWrapper());
+complexApp.delete('/', middlewareWrapper(), function (req, res) {
   res.send('Hello World (Delete)');
 });
 

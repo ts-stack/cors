@@ -1,7 +1,7 @@
 import express from 'express';
 import supertest from 'supertest';
 
-import { CorsOptions, middlewareWrapper as cors } from '../src';
+import { CorsOptions, middlewareWrapper } from '../src';
 
 process.env.NODE_ENV = 'test';
 
@@ -12,8 +12,8 @@ const corsOptions: CorsOptions = {
   credentials: true,
   maxAge: 3600,
 };
-app.options('/api/login', cors(corsOptions));
-app.post('/api/login', cors(corsOptions), function (req, res) {
+app.options('/api/login', middlewareWrapper(corsOptions));
+app.post('/api/login', middlewareWrapper(corsOptions), function (req, res) {
   res.send('LOGIN');
 });
 
