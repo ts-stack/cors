@@ -10,18 +10,13 @@
  * 
  * [1]: http://tools.ietf.org/html/draft-abarth-origin-09
  */
-export type StaticOrigin = boolean | string | RegExp | (boolean | string | RegExp)[];
-
-export type CustomOrigin = (
-  requestOrigin: string | undefined,
-  callback: (err: Error | null, origin?: StaticOrigin) => void
-) => void;
+export type Origin = boolean | string | RegExp | (boolean | string | RegExp)[];
 
 export class CorsOptions {
   /**
    * Configures the `Access-Control-Allow-Origin` CORS header. Default `*`
    */
-  origin?: StaticOrigin | CustomOrigin;
+  origin?: Origin;
   /**
    * Configures the `Access-Control-Allow-Methods` CORS header.
    * Expects a comma-delimited string (ex: `GET,PUT,POST`) or an array (ex: `['GET', 'PUT', 'POST']`).

@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import vary from 'vary';
-import { CorsOptions, CustomOrigin, StaticOrigin } from './cors-options';
+import { CorsOptions, Origin } from './cors-options';
 
 export type AnyFn = (...args: any[]) => any;
 
@@ -217,7 +217,7 @@ function configureExposedHeaders(options: CorsOptions) {
   return null;
 }
 
-function isOriginAllowed(origin: string, allowedOrigin: StaticOrigin | CustomOrigin) {
+function isOriginAllowed(origin: string, allowedOrigin: Origin) {
   if (Array.isArray(allowedOrigin)) {
     for (let i = 0; i < allowedOrigin.length; ++i) {
       if (isOriginAllowed(origin, allowedOrigin[i])) {
