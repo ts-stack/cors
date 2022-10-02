@@ -1,1 +1,1 @@
-export { AnyFn, AnyObj, middlewareWrapper } from './main';
+export { middlewareWrapper } from './main';

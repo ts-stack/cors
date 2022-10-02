@@ -2,7 +2,8 @@ import express, { Response } from 'express';
 import { IncomingMessage } from 'http';
 import supertest from 'supertest';
 
-import { AnyFn, middlewareWrapper as cors } from '../src';
+import { AnyFn } from '../src/main';
+import { middlewareWrapper as cors } from '../src';
 
 process.env.NODE_ENV = 'test';
 

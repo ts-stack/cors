@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import { AnyObj } from '../src';
+import { AnyObj } from '../src/main';
 
 export class FakeResponse extends EventEmitter {
   private _headers: AnyObj = {};

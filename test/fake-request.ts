@@ -1,4 +1,4 @@
-import { AnyObj } from '../src';
+import { AnyObj } from '../src/main';
 
 export class FakeRequest {
   constructor(public method?: string, public headers?: AnyObj) {
