@@ -62,20 +62,36 @@ export function middlewareWrapper(o?: AnyFn | CorsOptions) {
   };
 }
 
-function isOriginAllowed(origin: string, allowedOrigin: StaticOrigin | CustomOrigin) {
-  if (Array.isArray(allowedOrigin)) {
-    for (let i = 0; i < allowedOrigin.length; ++i) {
-      if (isOriginAllowed(origin, allowedOrigin[i])) {
-        return true;
-      }
+function cors(options: CorsOptions, req: IncomingMessage, res: ServerResponse, next: AnyFn) {
+  const headers = [],
+    method = req.method && req.method.toUpperCase && req.method.toUpperCase();
+
+  if (method == 'OPTIONS') {
+    // preflight
+    headers.push(configureOrigin(options, req));
+    headers.push(configureCredentials(options));
+    headers.push(configureMethods(options));
+    headers.push(configureAllowedHeaders(options, req));
+    headers.push(configureMaxAge(options));
+    headers.push(configureExposedHeaders(options));
+    applyHeaders(headers, res);
+
+    if (options.preflightContinue) {
+      next();
+    } else {
+      // Safari (and potentially other browsers) need content-length 0,
+      //   for 204 or they just hang waiting for a body
+      res.statusCode = options.optionsSuccessStatus;
+      res.setHeader('Content-Length', '0');
+      res.end();
     }
-    return false;
-  } else if (typeof allowedOrigin == 'string') {
-    return origin == allowedOrigin;
-  } else if (allowedOrigin instanceof RegExp) {
-    return allowedOrigin.test(origin);
   } else {
-    return !!allowedOrigin;
+    // actual response
+    headers.push(configureOrigin(options, req));
+    headers.push(configureCredentials(options));
+    headers.push(configureExposedHeaders(options));
+    applyHeaders(headers, res);
+    next();
   }
 }
 
@@ -126,6 +142,16 @@ function configureOrigin(options: CorsOptions, req: IncomingMessage) {
   return headers;
 }
 
+function configureCredentials(options: CorsOptions) {
+  if (options.credentials === true) {
+    return {
+      key: 'Access-Control-Allow-Credentials',
+      value: 'true',
+    };
+  }
+  return null;
+}
+
 function configureMethods(options: CorsOptions) {
   let methods = options.methods;
   if (Array.isArray(methods)) {
@@ -135,16 +161,6 @@ function configureMethods(options: CorsOptions) {
     key: 'Access-Control-Allow-Methods',
     value: methods,
   };
-}
-
-function configureCredentials(options: CorsOptions) {
-  if (options.credentials === true) {
-    return {
-      key: 'Access-Control-Allow-Credentials',
-      value: 'true',
-    };
-  }
-  return null;
 }
 
 function configureAllowedHeaders(options: CorsOptions, req: IncomingMessage) {
@@ -174,6 +190,17 @@ function configureAllowedHeaders(options: CorsOptions, req: IncomingMessage) {
   return headers;
 }
 
+function configureMaxAge(options: CorsOptions) {
+  const maxAge = (typeof options.maxAge == 'number' || options.maxAge) && options.maxAge.toString();
+  if (maxAge && maxAge.length) {
+    return {
+      key: 'Access-Control-Max-Age',
+      value: maxAge,
+    };
+  }
+  return null;
+}
+
 function configureExposedHeaders(options: CorsOptions) {
   let headers = options.exposedHeaders;
   if (!headers) {
@@ -190,15 +217,21 @@ function configureExposedHeaders(options: CorsOptions) {
   return null;
 }
 
-function configureMaxAge(options: CorsOptions) {
-  const maxAge = (typeof options.maxAge == 'number' || options.maxAge) && options.maxAge.toString();
-  if (maxAge && maxAge.length) {
-    return {
-      key: 'Access-Control-Max-Age',
-      value: maxAge,
-    };
+function isOriginAllowed(origin: string, allowedOrigin: StaticOrigin | CustomOrigin) {
+  if (Array.isArray(allowedOrigin)) {
+    for (let i = 0; i < allowedOrigin.length; ++i) {
+      if (isOriginAllowed(origin, allowedOrigin[i])) {
+        return true;
+      }
+    }
+    return false;
+  } else if (typeof allowedOrigin == 'string') {
+    return origin == allowedOrigin;
+  } else if (allowedOrigin instanceof RegExp) {
+    return allowedOrigin.test(origin);
+  } else {
+    return !!allowedOrigin;
   }
-  return null;
 }
 
 function applyHeaders(headers: any[], res: ServerResponse) {
@@ -213,38 +246,5 @@ function applyHeaders(headers: any[], res: ServerResponse) {
         res.setHeader(header.key, header.value);
       }
     }
-  }
-}
-
-function cors(options: CorsOptions, req: IncomingMessage, res: ServerResponse, next: AnyFn) {
-  const headers = [],
-    method = req.method && req.method.toUpperCase && req.method.toUpperCase();
-
-  if (method == 'OPTIONS') {
-    // preflight
-    headers.push(configureOrigin(options, req));
-    headers.push(configureCredentials(options));
-    headers.push(configureMethods(options));
-    headers.push(configureAllowedHeaders(options, req));
-    headers.push(configureMaxAge(options));
-    headers.push(configureExposedHeaders(options));
-    applyHeaders(headers, res);
-
-    if (options.preflightContinue) {
-      next();
-    } else {
-      // Safari (and potentially other browsers) need content-length 0,
-      //   for 204 or they just hang waiting for a body
-      res.statusCode = options.optionsSuccessStatus;
-      res.setHeader('Content-Length', '0');
-      res.end();
-    }
-  } else {
-    // actual response
-    headers.push(configureOrigin(options, req));
-    headers.push(configureCredentials(options));
-    headers.push(configureExposedHeaders(options));
-    applyHeaders(headers, res);
-    next();
   }
 }
