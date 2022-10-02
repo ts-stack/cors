@@ -11,17 +11,7 @@ export interface AnyObj {
 /**
  * can pass either an options hash, an options delegate, or nothing
  */
-export function middlewareWrapper(o?: AnyFn | CorsOptions) {
-  // if options are static (either via defaults or custom options passed in), wrap in a function
-  let optionsCallback: AnyFn;
-  if (typeof o == 'function') {
-    optionsCallback = o;
-  } else {
-    optionsCallback = function (req, cb) {
-      cb(null, o);
-    };
-  }
-
+export function middlewareWrapper(options?: CorsOptions) {
   const defaults: CorsOptions = {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -30,35 +20,12 @@ export function middlewareWrapper(o?: AnyFn | CorsOptions) {
   };
 
   return function corsMiddleware(req: IncomingMessage, res: ServerResponse, next: AnyFn) {
-    optionsCallback(req, function (err: Error, options: CorsOptions) {
-      if (err) {
-        next(err);
-        return;
-      }
-
-      const corsOptions = Object.assign({}, defaults, options);
-      let originCallback: AnyFn | undefined;
-      if (typeof corsOptions.origin == 'function') {
-        originCallback = corsOptions.origin;
-      } else if (corsOptions.origin) {
-        originCallback = function (origin: string, cb: AnyFn) {
-          cb(null, corsOptions.origin);
-        };
-      }
-
-      if (originCallback) {
-        originCallback(req.headers.origin, function (err2: Error, origin: string) {
-          if (err2 || !origin) {
-            next(err2);
-          } else {
-            corsOptions.origin = origin;
-            cors(corsOptions, req, res, next);
-          }
-        });
-      } else {
-        next();
-      }
-    });
+    const corsOptions = Object.assign({}, defaults, options);
+    if (corsOptions.origin) {
+      cors(corsOptions, req, res, next);
+    } else {
+      next();
+    }
   };
 }
 

@@ -615,62 +615,62 @@ describe('cors', function () {
   });
 
   describe('passing a function to build options', function () {
-    it('handles options specified via callback', function (done) {
-      // arrange
-      const delegate = function (req2: Request, cb: AnyFn) {
-        cb(null, {
-          origin: 'delegate.com',
-        });
-      };
-      const req = fakeRequest('GET');
-      const res = fakeResponse();
-      const next = function () {
-        // assert
-        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'delegate.com');
-        done();
-      };
+    // it('handles options specified via callback', function (done) {
+    //   // arrange
+    //   const delegate = function (req2: Request, cb: AnyFn) {
+    //     cb(null, {
+    //       origin: 'delegate.com',
+    //     });
+    //   };
+    //   const req = fakeRequest('GET');
+    //   const res = fakeResponse();
+    //   const next = function () {
+    //     // assert
+    //     assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'delegate.com');
+    //     done();
+    //   };
 
-      // act
-      cors(delegate)(req, res, next);
-    });
+    //   // act
+    //   cors(delegate)(req, res, next);
+    // });
 
-    it('handles options specified via callback for preflight', function (done) {
-      const cb = after(1, done);
-      const req = fakeRequest('OPTIONS');
-      const res = fakeResponse();
-      const delegate = function (req2: Request, cb: AnyFn) {
-        cb(null, {
-          origin: 'delegate.com',
-          maxAge: 1000,
-        });
-      };
+    // it('handles options specified via callback for preflight', function (done) {
+    //   const cb = after(1, done);
+    //   const req = fakeRequest('OPTIONS');
+    //   const res = fakeResponse();
+    //   const delegate = function (req2: Request, cb: AnyFn) {
+    //     cb(null, {
+    //       origin: 'delegate.com',
+    //       maxAge: 1000,
+    //     });
+    //   };
 
-      res.on('finish', function () {
-        assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'delegate.com');
-        assert.strictEqual(res.getHeader('Access-Control-Max-Age'), '1000');
-        cb();
-      });
+    //   res.on('finish', function () {
+    //     assert.strictEqual(res.getHeader('Access-Control-Allow-Origin'), 'delegate.com');
+    //     assert.strictEqual(res.getHeader('Access-Control-Max-Age'), '1000');
+    //     cb();
+    //   });
 
-      cors(delegate)(req, res, function (err) {
-        cb(err || new Error('should not be called'));
-      });
-    });
+    //   cors(delegate)(req, res, function (err) {
+    //     cb(err || new Error('should not be called'));
+    //   });
+    // });
 
-    it('handles error specified via callback', function (done) {
-      // arrange
-      const delegate = function (req2: Request, cb: AnyFn) {
-        cb('some error');
-      };
-      const req = fakeRequest('GET');
-      const res = fakeResponse();
-      const next = function (err: Error) {
-        // assert
-        assert.strictEqual(err, 'some error');
-        done();
-      };
+    // it('handles error specified via callback', function (done) {
+    //   // arrange
+    //   const delegate = function (req2: Request, cb: AnyFn) {
+    //     cb('some error');
+    //   };
+    //   const req = fakeRequest('GET');
+    //   const res = fakeResponse();
+    //   const next = function (err: Error) {
+    //     // assert
+    //     assert.strictEqual(err, 'some error');
+    //     done();
+    //   };
 
-      // act
-      cors(delegate)(req, res, next);
-    });
+    //   // act
+    //   cors(delegate)(req, res, next);
+    // });
   });
 });
