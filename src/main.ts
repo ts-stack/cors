@@ -22,7 +22,7 @@ export function middlewareWrapper(o?: AnyFn | CorsOptions) {
     };
   }
 
-  const defaults = {
+  const defaults: CorsOptions = {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
@@ -36,8 +36,8 @@ export function middlewareWrapper(o?: AnyFn | CorsOptions) {
         return;
       }
 
-      const corsOptions: CorsOptions = Object.assign({}, defaults, options);
-      let originCallback = null;
+      const corsOptions = Object.assign({}, defaults, options);
+      let originCallback: AnyFn | undefined;
       if (typeof corsOptions.origin == 'function') {
         originCallback = corsOptions.origin;
       } else if (corsOptions.origin) {
@@ -63,8 +63,8 @@ export function middlewareWrapper(o?: AnyFn | CorsOptions) {
 }
 
 function cors(options: CorsOptions, req: IncomingMessage, res: ServerResponse, next: AnyFn) {
-  const headers = [],
-    method = req.method && req.method.toUpperCase && req.method.toUpperCase();
+  const headers = [];
+  const method = req.method && req.method.toUpperCase && req.method.toUpperCase();
 
   if (method == 'OPTIONS') {
     // preflight
@@ -81,7 +81,7 @@ function cors(options: CorsOptions, req: IncomingMessage, res: ServerResponse, n
     } else {
       // Safari (and potentially other browsers) need content-length 0,
       //   for 204 or they just hang waiting for a body
-      res.statusCode = options.optionsSuccessStatus;
+      res.statusCode = options.optionsSuccessStatus!;
       res.setHeader('Content-Length', '0');
       res.end();
     }
@@ -123,7 +123,7 @@ function configureOrigin(options: CorsOptions, req: IncomingMessage) {
       },
     ]);
   } else {
-    isAllowed = isOriginAllowed(requestOrigin, options.origin);
+    isAllowed = isOriginAllowed(requestOrigin || '', options.origin);
     // reflect origin
     headers.push([
       {

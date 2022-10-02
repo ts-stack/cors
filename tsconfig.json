@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
