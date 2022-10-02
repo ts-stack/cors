@@ -1,12 +1,13 @@
 {
   "name": "@ts-stack/cors",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "Is a node.js package writen in TypeScript, fork of express cors module.",
   "main": "dist/index",
   "typings": "dist/index",
   "scripts": {
     "build": "rimraf dist/* && tsc",
-    "test": "jest"
+    "test": "jest",
+    "start": "nodemon test/node-http.ts"
   },
   "keywords": [],
   "author": "Troy Goode <troygoode@gmail.com>",
