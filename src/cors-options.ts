@@ -1,6 +1,3 @@
-/**
-
- */
 export type Origin = boolean | string | RegExp | (boolean | string | RegExp)[];
 
 export class CorsOptions {
