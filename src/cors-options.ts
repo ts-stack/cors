@@ -50,6 +50,8 @@ export class CorsOptions {
   maxAge?: number;
   /**
    * Pass the CORS preflight response to the next handler. Default `false`.
+   * 
+   * For more info see [PR](https://github.com/expressjs/cors/pull/40).
    */
   preflightContinue?: boolean;
   /**

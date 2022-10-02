@@ -19,16 +19,16 @@ export function middlewareWrapper(options?: CorsOptions) {
 
   return function corsMiddleware(req: IncomingMessage, res: ServerResponse, next: AnyFn) {
     if (corsOptions.origin) {
-      cors(corsOptions, req, res, next);
+      corsSync(corsOptions, req, res, next);
     } else {
       next();
     }
   };
 }
 
-function cors(options: CorsOptions, req: IncomingMessage, res: ServerResponse, next: AnyFn) {
+export function corsSync(options: CorsOptions, req: IncomingMessage, res: ServerResponse, next: AnyFn) {
   const headers = [];
-  const method = req.method && req.method.toUpperCase && req.method.toUpperCase();
+  const method = req.method?.toUpperCase();
 
   if (method == 'OPTIONS') {
     // preflight
@@ -57,6 +57,12 @@ function cors(options: CorsOptions, req: IncomingMessage, res: ServerResponse, n
     applyHeaders(headers, res);
     next();
   }
+}
+
+export function cors(options: CorsOptions, req: IncomingMessage, res: ServerResponse) {
+  return new Promise<void>((resolve) => {
+    corsSync(options, req, res, resolve);
+  });
 }
 
 function configureOrigin(options: CorsOptions, req: IncomingMessage) {
