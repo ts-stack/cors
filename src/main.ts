@@ -8,9 +8,6 @@ export interface AnyObj {
   [key: string | number]: any;
 }
 
-/**
- * can pass either an options hash, an options delegate, or nothing
- */
 export function middlewareWrapper(options?: CorsOptions) {
   const defaults: CorsOptions = {
     origin: '*',
@@ -18,9 +15,9 @@ export function middlewareWrapper(options?: CorsOptions) {
     preflightContinue: false,
     optionsSuccessStatus: 204,
   };
+  const corsOptions = Object.assign({}, defaults, options);
 
   return function corsMiddleware(req: IncomingMessage, res: ServerResponse, next: AnyFn) {
-    const corsOptions = Object.assign({}, defaults, options);
     if (corsOptions.origin) {
       cors(corsOptions, req, res, next);
     } else {
