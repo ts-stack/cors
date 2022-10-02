@@ -1,2 +1,2 @@
 export { middlewareWrapper } from './main';
-export { CorsOptions } from './cors-options';
+export { CorsOptions, StaticOrigin, CustomOrigin } from './cors-options';
