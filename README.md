@@ -7,15 +7,7 @@ This package is a fork of express/cors module from [this state](https://github.c
 * [Installation](#installation)
 * [Usage](#usage)
   * [Simple Usage](#simple-usage-enable-all-cors-requests)
-  * [Enable CORS for a Single Route](#enable-cors-for-a-single-route)
-  * [Configuring CORS](#configuring-cors)
-  * [Configuring CORS w/ Dynamic Origin](#configuring-cors-w-dynamic-origin)
   * [Enabling CORS Pre-Flight](#enabling-cors-pre-flight)
-  * [Configuring CORS Asynchronously](#configuring-cors-asynchronously)
-* [Configuration Options](#configuration-options)
-* [Demo](#demo)
-* [License](#license)
-* [Author](#author)
 
 ## Installation
 
