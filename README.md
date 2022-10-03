@@ -33,9 +33,7 @@ const corsOptions = mergeOptions({ origin: 'https://example.com' });
 
 const server = http.createServer(async (req, res) => {
   res.statusCode = 200;
-  if (corsOptions.origin) {
-    await cors(req, res, corsOptions);
-  }
+  await cors(req, res, corsOptions);
   res.setHeader('Content-Type', 'text/plain');
   res.end('This is CORS-enabled for all origins!');
 });

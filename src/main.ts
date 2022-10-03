@@ -12,11 +12,7 @@ export function middlewareWrapper(options?: CorsOptions) {
   const corsOptions = mergeOptions(options);
 
   return function corsMiddleware(req: IncomingMessage, res: ServerResponse, next: AnyFn) {
-    if (corsOptions.origin) {
-      corsSync(corsOptions, req, res, next);
-    } else {
-      next();
-    }
+    corsSync(corsOptions, req, res, next);
   };
 }
 
@@ -34,6 +30,10 @@ export function mergeOptions(options?: CorsOptions) {
 }
 
 export function corsSync(options: CorsOptions, req: IncomingMessage, res: ServerResponse, next: AnyFn) {
+  if (!options.origin) {
+    next();
+    return;
+  }
   const headers = [];
   const method = req.method?.toUpperCase();
 

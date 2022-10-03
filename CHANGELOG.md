@@ -1,5 +1,12 @@
+<a name="1.0.4"></a>
+# [1.0.4](https://github.com/ts-stack/ditsmod/releases/tag/1.0.4) (2022-10-03)
+
+### Bug fix
+
+- Fixed passing options.
+
 <a name="1.0.3"></a>
-# [1.0.3](https://github.com/ts-stack/ditsmod/releases/tag/1.0.3) (2022-10-03)
+## [1.0.3](https://github.com/ts-stack/ditsmod/releases/tag/1.0.3) (2022-10-03)
 
 ### Bug fix
 
