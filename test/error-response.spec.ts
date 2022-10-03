@@ -2,8 +2,7 @@ import express, { Response } from 'express';
 import { IncomingMessage } from 'http';
 import supertest from 'supertest';
 
-import { AnyFn } from '../src/main';
-import { middlewareWrapper } from '../src';
+import { AnyFn, middlewareWrapper } from '../src/main';
 
 process.env.NODE_ENV = 'test';
 

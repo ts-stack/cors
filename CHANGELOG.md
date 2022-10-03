@@ -1,5 +1,12 @@
+<a name="1.0.3"></a>
+# [1.0.3](https://github.com/ts-stack/ditsmod/releases/tag/1.0.3) (2022-10-03)
+
+### Bug fix
+
+- Fixed tsconfig.
+
 <a name="1.0.2"></a>
-# [1.0.2](https://github.com/ts-stack/ditsmod/releases/tag/1.0.2) (2022-10-03)
+## [1.0.2](https://github.com/ts-stack/ditsmod/releases/tag/1.0.2) (2022-10-03)
 
 ### Bug fix
 

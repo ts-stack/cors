@@ -1,3 +1,4 @@
+/// <reference path="./index.d.ts" />
 import * as assert from 'assert';
 import after from 'after';
 import { Request, Response } from 'express';
@@ -5,7 +6,7 @@ import { Request, Response } from 'express';
 import { CorsOptions, middlewareWrapper } from '../src';
 import { FakeRequest } from './fake-request';
 import { FakeResponse } from './fake-response';
-import { AnyObj } from 'src/main';
+import { AnyObj } from '../src/main';
 
 process.env.NODE_ENV = 'test';
 

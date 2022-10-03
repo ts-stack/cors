@@ -14,10 +14,13 @@
     "sourceMap": true,
     "outDir": "dist",
     // "baseUrl": ".", // See https://github.com/microsoft/TypeScript/issues/47114#issuecomment-1004360864
-    "rootDir": "src",
+    // "rootDir": "src",
     "removeComments": false,
     "declaration": true,
-    "allowJs": false
+    "allowJs": false,
+    "paths": {
+      "@ts-stack/cors": ["../src"]
+    }
   },
-  "include": ["src"]
+  "include": ["./"]
 }
