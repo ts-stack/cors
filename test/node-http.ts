@@ -9,7 +9,10 @@ const corsOptions = mergeOptions({
 
 const server = http.createServer(async (req, res) => {
   res.statusCode = 200;
-  await cors(req, res, corsOptions);
+  const headersSent = await cors(req, res, corsOptions);
+  if (headersSent) {
+    return;
+  }
   res.setHeader('Content-Type', 'text/plain');
   res.end('Hello World');
 });

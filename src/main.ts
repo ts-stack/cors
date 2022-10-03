@@ -11,8 +11,12 @@ export interface AnyObj {
 export function middlewareWrapper(options?: CorsOptions) {
   const corsOptions = mergeOptions(options);
 
-  return function corsMiddleware(req: NodeRequest, res: NodeResponse, next: AnyFn) {
-    corsSync(corsOptions, req, res, next);
+  return async function corsMiddleware(req: NodeRequest, res: NodeResponse, next: AnyFn) {
+    const headersSent = await cors(req, res, corsOptions);
+    if (headersSent) {
+      return;
+    }
+    next();
   };
 }
 
@@ -23,52 +27,44 @@ export function mergeOptions(options?: CorsOptions) {
   const defaults: CorsOptions = {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
     optionsSuccessStatus: 204,
   };
   return Object.assign({}, defaults, options);
 }
 
-export function corsSync(options: CorsOptions, req: NodeRequest, res: NodeResponse, next: AnyFn) {
-  if (!options.origin) {
-    next();
-    return;
-  }
-  const headers = [];
-  const method = req.method?.toUpperCase();
+export function cors(req: NodeRequest, res: NodeResponse, options: CorsOptions) {
+  return new Promise<boolean>((resolve) => {
+    if (!options.origin) {
+      resolve(false);
+      return;
+    }
+    const headers = [];
+    const method = req.method?.toUpperCase();
 
-  if (method == 'OPTIONS') {
-    // preflight
-    headers.push(configureOrigin(options, req));
-    headers.push(configureCredentials(options));
-    headers.push(configureMethods(options));
-    headers.push(configureAllowedHeaders(options, req));
-    headers.push(configureMaxAge(options));
-    headers.push(configureExposedHeaders(options));
-    applyHeaders(headers, res);
+    if (method == 'OPTIONS') {
+      // preflight
+      headers.push(configureOrigin(options, req));
+      headers.push(configureCredentials(options));
+      headers.push(configureMethods(options));
+      headers.push(configureAllowedHeaders(options, req));
+      headers.push(configureMaxAge(options));
+      headers.push(configureExposedHeaders(options));
+      applyHeaders(headers, res);
 
-    if (options.preflightContinue) {
-      next();
-    } else {
       // Safari (and potentially other browsers) need content-length 0,
       //   for 204 or they just hang waiting for a body
       res.statusCode = options.optionsSuccessStatus!;
       res.setHeader('Content-Length', '0');
       res.end();
+      resolve(true);
+    } else {
+      // actual response
+      headers.push(configureOrigin(options, req));
+      headers.push(configureCredentials(options));
+      headers.push(configureExposedHeaders(options));
+      applyHeaders(headers, res);
+      resolve(false);
     }
-  } else {
-    // actual response
-    headers.push(configureOrigin(options, req));
-    headers.push(configureCredentials(options));
-    headers.push(configureExposedHeaders(options));
-    applyHeaders(headers, res);
-    next();
-  }
-}
-
-export function cors(req: NodeRequest, res: NodeResponse, options: CorsOptions) {
-  return new Promise<void>((resolve) => {
-    corsSync(options, req, res, resolve);
   });
 }
 
