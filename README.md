@@ -16,7 +16,7 @@ This is a [Node.js](https://nodejs.org/en/) module available through the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
 ```sh
-$ npm install cors
+yarn add @ts-stack/cors
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ $ npm install cors
 
 ```js
 import http from 'http';
-import { cors, mergeOptions } from '../src';
+import { cors, mergeOptions } from '@ts-stack/cors';
 
 const hostname = '127.0.0.1';
 const port = 3000;
