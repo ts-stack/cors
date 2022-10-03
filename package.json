@@ -1,6 +1,11 @@
 {
   "name": "@ts-stack/cors",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ts-stack/cors.git"
+  },
+  "homepage": "https://github.com/ts-stack/cors",
   "description": "Is a node.js package writen in TypeScript, fork of express cors module.",
   "main": "dist/index",
   "typings": "dist/index",
