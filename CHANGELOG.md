@@ -1,5 +1,12 @@
+<a name="1.0.5"></a>
+# [1.0.5](https://github.com/ts-stack/ditsmod/releases/tag/1.0.5) (2022-10-03)
+
+### Bug fix
+
+- Expanded types of HTTP requests. Added NodeRequest and NodeResponse types.
+
 <a name="1.0.4"></a>
-# [1.0.4](https://github.com/ts-stack/ditsmod/releases/tag/1.0.4) (2022-10-03)
+## [1.0.4](https://github.com/ts-stack/ditsmod/releases/tag/1.0.4) (2022-10-03)
 
 ### Bug fix
 

@@ -1,6 +1,6 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import { ServerResponse } from 'http';
 import vary from 'vary';
-import { CorsOptions, Origin } from './cors-options';
+import { CorsOptions, NodeRequest, NodeResponse, Origin } from './cors-options';
 
 export type AnyFn = (...args: any[]) => any;
 
@@ -11,7 +11,7 @@ export interface AnyObj {
 export function middlewareWrapper(options?: CorsOptions) {
   const corsOptions = mergeOptions(options);
 
-  return function corsMiddleware(req: IncomingMessage, res: ServerResponse, next: AnyFn) {
+  return function corsMiddleware(req: NodeRequest, res: NodeResponse, next: AnyFn) {
     corsSync(corsOptions, req, res, next);
   };
 }
@@ -29,7 +29,7 @@ export function mergeOptions(options?: CorsOptions) {
   return Object.assign({}, defaults, options);
 }
 
-export function corsSync(options: CorsOptions, req: IncomingMessage, res: ServerResponse, next: AnyFn) {
+export function corsSync(options: CorsOptions, req: NodeRequest, res: NodeResponse, next: AnyFn) {
   if (!options.origin) {
     next();
     return;
@@ -66,13 +66,13 @@ export function corsSync(options: CorsOptions, req: IncomingMessage, res: Server
   }
 }
 
-export function cors(req: IncomingMessage, res: ServerResponse, options: CorsOptions) {
+export function cors(req: NodeRequest, res: NodeResponse, options: CorsOptions) {
   return new Promise<void>((resolve) => {
     corsSync(options, req, res, resolve);
   });
 }
 
-function configureOrigin(options: CorsOptions, req: IncomingMessage) {
+function configureOrigin(options: CorsOptions, req: NodeRequest) {
   const requestOrigin = req.headers.origin;
   const headers = [];
   let isAllowed: boolean;
@@ -140,7 +140,7 @@ function configureMethods(options: CorsOptions) {
   };
 }
 
-function configureAllowedHeaders(options: CorsOptions, req: IncomingMessage) {
+function configureAllowedHeaders(options: CorsOptions, req: NodeRequest) {
   let { allowedHeaders } = options;
   const headers = [];
 
@@ -211,14 +211,14 @@ function isOriginAllowed(origin: string, allowedOrigin: Origin) {
   }
 }
 
-function applyHeaders(headers: any[], res: ServerResponse) {
+function applyHeaders(headers: any[], res: NodeResponse) {
   for (let i = 0, n = headers.length; i < n; i++) {
     const header = headers[i];
     if (header) {
       if (Array.isArray(header)) {
         applyHeaders(header, res);
       } else if (header.key == 'Vary' && header.value) {
-        vary(res, header.value);
+        vary(res as ServerResponse, header.value);
       } else if (header.value) {
         res.setHeader(header.key, header.value);
       }

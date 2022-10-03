@@ -1,4 +1,9 @@
+import type * as http from 'http';
+import { Http2ServerRequest, Http2ServerResponse } from 'http2';
+
 export type Origin = boolean | string | RegExp | (boolean | string | RegExp)[];
+export type NodeRequest = http.IncomingMessage | Http2ServerRequest;
+export type NodeResponse = http.ServerResponse | Http2ServerResponse;
 
 export class CorsOptions {
   /**
