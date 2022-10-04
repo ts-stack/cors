@@ -10,7 +10,7 @@ export class CorsOptions {
    * Configures the `Access-Control-Allow-Origin` CORS header. Default `*`.
    *
    * This option accept following values:
-   * 
+   *
    * - `boolean` - set `origin` to `true` to reflect [the request origin][1], as defined by `req.header('Origin')`, or set it to `false` to disable CORS.
    * - `string` - set `origin` to a specific origin. For example if you set it to "http://example.com" only requests from "http://example.com" will be allowed.
    * - `RegExp` - set origin to a regular expression pattern which will be used to test the request origin. If it's a match, the request origin will be reflected.
@@ -53,6 +53,12 @@ export class CorsOptions {
    * Set to an integer to pass the header, otherwise it is omitted.
    */
   maxAge?: number;
+  /**
+   * Pass the CORS preflight response without set status and send headers. Default `false`.
+   *
+   * For more info see [PR](https://github.com/expressjs/cors/pull/40).
+   */
+  preflightContinue?: boolean;
   /**
    * Provides a status code to use for successful OPTIONS requests, since some legacy
    * browsers (IE11, various SmartTVs) choke on `204`.

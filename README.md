@@ -31,9 +31,9 @@ const hostname = '127.0.0.1';
 const port = 3000;
 const corsOptions = mergeOptions({ origin: 'https://example.com' });
 
-const server = http.createServer(async (req, res) => {
+const server = http.createServer((req, res) => {
   res.statusCode = 200;
-  const headersSent = await cors(req, res, corsOptions);
+  const headersSent = cors(req, res, corsOptions);
   if (headersSent) {
     return;
   }
@@ -63,6 +63,7 @@ The default configuration is the equivalent of:
 {
   "origin": "*",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
   "optionsSuccessStatus": 204
 }
 ```

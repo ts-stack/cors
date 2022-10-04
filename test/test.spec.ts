@@ -71,6 +71,21 @@ describe('cors', function () {
     });
   });
 
+  it("doesn't shortcircuit preflight requests with preflightContinue option", function (done) {
+    const cb = after(1, done);
+    const req = fakeRequest('OPTIONS');
+    const res = fakeResponse();
+
+    res.on('finish', function () {
+      cb(new Error('should not be called'));
+    });
+
+    middlewareWrapper({ preflightContinue: true })(req, res, function (err) {
+      if (err) return cb(err);
+      setTimeout(cb, 10);
+    });
+  });
+
   it('normalizes method names', function (done) {
     const cb = after(1, done);
     const req = fakeRequest('options');
