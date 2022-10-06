@@ -4,7 +4,7 @@ import { cors, mergeOptions } from '../src';
 const hostname = '127.0.0.1';
 const port = 3000;
 const corsOptions = mergeOptions({
-  methods: ['POST'],
+  allowedMethods: ['POST'],
 });
 
 const server = http.createServer(async (req, res) => {

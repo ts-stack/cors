@@ -155,7 +155,7 @@ describe('cors', function () {
       const res = fakeResponse();
       const options: CorsOptions = {
         origin: 'http://example.com',
-        methods: ['FOO', 'bar'],
+        allowedMethods: ['FOO', 'bar'],
         allowedHeaders: ['FIZZ', 'buzz'],
         credentials: true,
         maxAge: 123,
@@ -216,7 +216,7 @@ describe('cors', function () {
       // arrange
       const options: CorsOptions = {
         origin: false,
-        methods: ['FOO', 'bar'],
+        allowedMethods: ['FOO', 'bar'],
         allowedHeaders: ['FIZZ', 'buzz'],
         credentials: true,
         maxAge: 123,
@@ -325,7 +325,7 @@ describe('cors', function () {
       const req = fakeRequest('OPTIONS');
       const res = fakeResponse();
       const options: CorsOptions = {
-        methods: ['method1', 'method2'],
+        allowedMethods: ['method1', 'method2'],
       };
 
       res.on('finish', function () {

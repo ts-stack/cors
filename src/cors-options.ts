@@ -29,7 +29,7 @@ export class CorsOptions {
    *
    * Default `GET,HEAD,PUT,PATCH,POST,DELETE`.
    */
-  methods?: string | string[];
+  allowedMethods?: string | string[];
   /**
    * Configures the `Access-Control-Allow-Headers` CORS header. Expects a comma-delimited string
    * (ex: `Content-Type,Authorization`) or an array (ex: `['Content-Type', 'Authorization']`).

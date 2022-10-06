@@ -26,7 +26,7 @@ export function middlewareWrapper(options?: CorsOptions) {
 export function mergeOptions(options?: CorsOptions) {
   const defaults: CorsOptions = {
     origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedMethods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
   };
@@ -128,7 +128,7 @@ function configureCredentials(options: CorsOptions) {
 }
 
 function configureMethods(options: CorsOptions) {
-  let methods = options.methods;
+  let methods = options.allowedMethods;
   if (Array.isArray(methods)) {
     methods = methods.join(','); // .methods is an array, so turn it into a string
   }

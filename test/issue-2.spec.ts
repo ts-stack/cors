@@ -8,7 +8,7 @@ process.env.NODE_ENV = 'test';
 const app = express();
 const corsOptions: CorsOptions = {
   origin: true,
-  methods: ['POST'],
+  allowedMethods: ['POST'],
   credentials: true,
   maxAge: 3600,
 };
