@@ -157,7 +157,7 @@ describe('cors', function () {
         origin: 'http://example.com',
         allowedMethods: ['FOO', 'bar'],
         allowedHeaders: ['FIZZ', 'buzz'],
-        credentials: true,
+        allowCredentials: true,
         maxAge: 123,
       };
 
@@ -218,7 +218,7 @@ describe('cors', function () {
         origin: false,
         allowedMethods: ['FOO', 'bar'],
         allowedHeaders: ['FIZZ', 'buzz'],
-        credentials: true,
+        allowCredentials: true,
         maxAge: 123,
       };
       const req = fakeRequest('GET');
@@ -472,7 +472,7 @@ describe('cors', function () {
       middlewareWrapper(options)(req, res, next);
     });
 
-    it('includes credentials if explicitly enabled', function (done) {
+    it('includes allowCredentials if explicitly enabled', function (done) {
       const cb = after(1, done);
       const req = fakeRequest('OPTIONS');
       const res = fakeResponse();
@@ -482,7 +482,7 @@ describe('cors', function () {
         cb();
       });
 
-      middlewareWrapper({ credentials: true })(req, res, function (err) {
+      middlewareWrapper({ allowCredentials: true })(req, res, function (err) {
         cb(err || new Error('should not be called'));
       });
     });

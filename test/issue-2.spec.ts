@@ -9,7 +9,7 @@ const app = express();
 const corsOptions: CorsOptions = {
   origin: true,
   allowedMethods: ['POST'],
-  credentials: true,
+  allowCredentials: true,
   maxAge: 3600,
 };
 app.options('/api/login', middlewareWrapper(corsOptions));

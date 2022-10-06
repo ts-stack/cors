@@ -118,7 +118,7 @@ function configureOrigin(options: CorsOptions, req: NodeRequest) {
 }
 
 function configureCredentials(options: CorsOptions) {
-  if (options.credentials === true) {
+  if (options.allowCredentials === true) {
     return {
       key: 'Access-Control-Allow-Credentials',
       value: 'true',

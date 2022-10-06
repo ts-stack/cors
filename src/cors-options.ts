@@ -38,16 +38,16 @@ export class CorsOptions {
    */
   allowedHeaders?: string | string[];
   /**
+   * Configures the `Access-Control-Allow-Credentials` CORS header.
+   * Set to `true` to pass the header, otherwise it is omitted.
+   */
+  allowCredentials?: boolean;
+  /**
    * Configures the `Access-Control-Expose-Headers` CORS header. Expects a comma-delimited string
    * (ex: `Content-Range,X-Content-Range`) or an array (ex: `['Content-Range', 'X-Content-Range']`).
    * If not specified, no custom headers are exposed.
    */
   exposedHeaders?: string | string[];
-  /**
-   * Configures the `Access-Control-Allow-Credentials` CORS header.
-   * Set to `true` to pass the header, otherwise it is omitted.
-   */
-  credentials?: boolean;
   /**
    * Configures the `Access-Control-Max-Age` CORS header.
    * Set to an integer to pass the header, otherwise it is omitted.
