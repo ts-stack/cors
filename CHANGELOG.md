@@ -3,8 +3,12 @@
 
 ### BREAKING CHANGES
 
+- CORS must have `Origin` header.
+- Preflight CORS request must have at least `Access-Control-Request-Method` or `Access-Control-Request-Headers`.
 - Renamed `corsOptions.methods` to `corsOptions.allowedMethods`.
 - Renamed `corsOptions.credentials` to `corsOptions.allowCredentials`.
+
+See [docs](https://fetch.spec.whatwg.org/#http-requests) for more info.
 
 <a name="1.2.0"></a>
 ## [1.2.0](https://github.com/ts-stack/ditsmod/releases/tag/1.2.0) (2022-10-04)
