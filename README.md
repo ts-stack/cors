@@ -21,7 +21,7 @@ yarn add @ts-stack/cors
 
 ## Usage
 
-### Simple Usage (Enable *All* CORS Requests)
+### Simple Usage (Enable CORS Requests to https://example.com)
 
 ```js
 import http from 'http';
@@ -38,7 +38,7 @@ const server = http.createServer((req, res) => {
     return;
   }
   res.setHeader('Content-Type', 'text/plain');
-  res.end('This is CORS-enabled for all origins!');
+  res.end('This is CORS-enabled for https://example.com!');
 });
 
 server.listen(port, hostname, () => {
@@ -46,13 +46,13 @@ server.listen(port, hostname, () => {
 });
 ```
 
-### Enabling CORS Pre-Flight
+### Enabling CORS Preflight
 
 Certain CORS requests are considered 'complex' and require an initial
-`OPTIONS` request (called the "pre-flight request"). An example of a
+`OPTIONS` request (called the [preflight request][1]). An example of a
 'complex' CORS request is one that uses an HTTP verb other than
 GET/HEAD/POST (such as DELETE) or that uses custom headers. To enable
-pre-flighting, you must add a new OPTIONS handler for the route you want
+preflighting, you must add a new OPTIONS handler for the route you want
 to support.
 
 # The default configuration
@@ -68,4 +68,8 @@ The default configuration is the equivalent of:
 }
 ```
 
-For details on the effect of each CORS header, read [this](https://web.dev/cross-origin-resource-sharing/) article on web.dev.
+For details on the effect of each CORS header, read [this][2] article on web.dev.
+
+
+[1]: https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+[2]: https://web.dev/cross-origin-resource-sharing/
