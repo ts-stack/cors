@@ -1,5 +1,5 @@
-<a name="1.2.0"></a>
-# [1.2.0](https://github.com/ts-stack/ditsmod/releases/tag/1.2.0) (2022-10-04)
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/ts-stack/ditsmod/releases/tag/1.3.0) (2022-10-06)
 
 ### BREAKING CHANGES
 

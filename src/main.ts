@@ -34,7 +34,7 @@ export function mergeOptions(options?: CorsOptions) {
 }
 
 export function cors(req: NodeRequest, res: NodeResponse, options: CorsOptions) {
-  if (!options.origin) {
+  if (!options.origin || !req.headers.origin) {
     return false;
   }
   const headers = [];

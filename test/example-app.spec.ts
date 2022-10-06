@@ -29,17 +29,24 @@ describe('example app(s)', function () {
     it('GET works', function (done) {
       supertest(simpleApp)
         .get('/')
+        .set('Origin', '*')
         .expect(200)
         .expect('Access-Control-Allow-Origin', '*')
         .expect('Hello World (Get)')
         .end(done);
     });
     it('HEAD works', function (done) {
-      supertest(simpleApp).head('/').expect(204).expect('Access-Control-Allow-Origin', '*').end(done);
+      supertest(simpleApp)
+        .head('/')
+        .set('Origin', '*')
+        .expect(204)
+        .expect('Access-Control-Allow-Origin', '*')
+        .end(done);
     });
     it('POST works', function (done) {
       supertest(simpleApp)
         .post('/')
+        .set('Origin', '*')
         .expect(200)
         .expect('Access-Control-Allow-Origin', '*')
         .expect('Hello World (Post)')
@@ -49,11 +56,17 @@ describe('example app(s)', function () {
 
   describe('complex methods', function () {
     it('OPTIONS works', function (done) {
-      supertest(complexApp).options('/').expect(204).expect('Access-Control-Allow-Origin', '*').end(done);
+      supertest(complexApp)
+        .options('/')
+        .set('Origin', '*')
+        .expect(204)
+        .expect('Access-Control-Allow-Origin', '*')
+        .end(done);
     });
     it('DELETE works', function (done) {
       supertest(complexApp)
         .del('/')
+        .set('Origin', '*')
         .expect(200)
         .expect('Access-Control-Allow-Origin', '*')
         .expect('Hello World (Delete)')

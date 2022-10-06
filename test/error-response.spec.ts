@@ -33,6 +33,7 @@ describe('error response', function () {
   it('500', function (done) {
     supertest(app)
       .post('/five-hundred')
+      .set('Origin', '*')
       .expect(500)
       .expect('Access-Control-Allow-Origin', '*')
       .expect(/Error: nope/)
@@ -42,6 +43,7 @@ describe('error response', function () {
   it('401', function (done) {
     supertest(app)
       .post('/four-oh-one')
+      .set('Origin', '*')
       .expect(401)
       .expect('Access-Control-Allow-Origin', '*')
       .expect('unauthorized')
@@ -49,6 +51,11 @@ describe('error response', function () {
   });
 
   it('404', function (done) {
-    supertest(app).post('/four-oh-four').expect(404).expect('Access-Control-Allow-Origin', '*').end(done);
+    supertest(app)
+      .post('/four-oh-four')
+      .set('Origin', '*')
+      .expect(404)
+      .expect('Access-Control-Allow-Origin', '*')
+      .end(done);
   });
 });
