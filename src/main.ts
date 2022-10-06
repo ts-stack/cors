@@ -39,34 +39,30 @@ export function cors(req: NodeRequest, res: NodeResponse, options: CorsOptions) 
   }
   const headers = [];
   const method = req.method?.toUpperCase();
+  headers.push(configureOrigin(options, req));
+  headers.push(configureCredentials(options));
+  headers.push(configureExposedHeaders(options));
+  applyHeaders(headers, res);
 
-  if (method == 'OPTIONS') {
-    // preflight
-    headers.push(configureOrigin(options, req));
-    headers.push(configureCredentials(options));
+  /**
+   * See docs https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+   */
+  const isPreflight = (method == 'OPTIONS') && (req.headers['access-control-request-headers'] || req.headers['access-control-request-method']);
+  if (isPreflight) {
     headers.push(configureMethods(options));
     headers.push(configureAllowedHeaders(options, req));
     headers.push(configureMaxAge(options));
-    headers.push(configureExposedHeaders(options));
     applyHeaders(headers, res);
 
     if (options.preflightContinue) {
-      return false;
-    } else {
-      // Safari (and potentially other browsers) need content-length 0,
-      //   for 204 or they just hang waiting for a body
-      res.statusCode = options.optionsSuccessStatus!;
-      res.setHeader('Content-Length', '0');
-      res.end();
-      return true;
+      return;
     }
-  } else {
-    // actual response
-    headers.push(configureOrigin(options, req));
-    headers.push(configureCredentials(options));
-    headers.push(configureExposedHeaders(options));
-    applyHeaders(headers, res);
-    return false;
+    // Safari (and potentially other browsers) need content-length 0,
+    //   for 204 or they just hang waiting for a body
+    res.statusCode = options.optionsSuccessStatus!;
+    res.setHeader('Content-Length', '0');
+    res.end();
+    return true;
   }
 }
 

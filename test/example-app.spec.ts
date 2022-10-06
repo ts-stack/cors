@@ -59,6 +59,7 @@ describe('example app(s)', function () {
       supertest(complexApp)
         .options('/')
         .set('Origin', '*')
+        .set('Access-Control-Request-Method', 'POST')
         .expect(204)
         .expect('Access-Control-Allow-Origin', '*')
         .end(done);

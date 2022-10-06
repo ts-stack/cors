@@ -22,6 +22,7 @@ describe('issue  #2', function () {
     supertest(app)
       .options('/api/login')
       .set('Origin', 'http://example.com')
+      .set('Access-Control-Request-Method', 'POST')
       .expect(204)
       .expect('Access-Control-Allow-Origin', 'http://example.com')
       .end(done);
