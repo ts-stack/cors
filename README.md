@@ -2,7 +2,7 @@
 
 CORS is a node.js package writen in TypeScript for providing a sync middleware that can be used to enable [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) with various options.
 
-This package is a fork of express/cors module from [this state](https://github.com/expressjs/cors/tree/f038e772283), but removed `preflightContinue` option and `origin` options with callbacks for settings CORS options.
+This package is a fork of express/cors module from [this state](https://github.com/expressjs/cors/tree/f038e772283).
 
 * [Installation](#installation)
 * [Usage](#usage)
