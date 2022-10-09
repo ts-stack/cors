@@ -11,11 +11,7 @@ This package is a fork of express/cors module from [this state](https://github.c
 
 ## Installation
 
-This is a [Node.js](https://nodejs.org/en/) module available through the
-[npm registry](https://www.npmjs.com/). Installation is done using the
-[`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
-
-```sh
+```bash
 yarn add @ts-stack/cors
 ```
 
